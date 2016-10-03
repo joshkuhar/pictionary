@@ -24,7 +24,6 @@ io.on('connection', function (socket) {
 	console.log(users);
 
 	socket.on('draw', function(position) {
-        console.log('Received draw', position);
         socket.broadcast.emit('draw', position);
     });
 
@@ -34,7 +33,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function(){
-        console.log('user disconnected ' + numUsers.client.id);
+        console.log('user disconnected ');
     });
 });
 
