@@ -11,20 +11,19 @@ var io = socket_io(server);
 
 var users = [];
 
-io.on('connection', function (socket) {
-	// socket.broadcast.emit('drawing', 'Drawing') {
-	// 	console.log('drawing');
-	// 	socket.on('drawing', function(draw){
-
-	// 	});
-	// };
-	
+io.on('connection', function (socket) {	
 	var userID = socket.client.id;
 	users.push(userID);
 	console.log(users);
+	var drawer = users[0];	
 
 	socket.on('draw', function(position) {
+		console.log(userID);
         socket.broadcast.emit('draw', position);
+    });
+
+    socket.on('drawing', function(drawing){
+    	socket.broadcast.emit('drawing', drawing);
     });
 
     socket.on('guess', function(guess){
