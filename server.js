@@ -20,6 +20,11 @@ io.on('connection', function (socket) {
         console.log('Received draw', position);
         socket.broadcast.emit('draw', position);
     });
+
+    socket.on('guess', function(guess){
+    	console.log(guess);
+    	socket.broadcast.emit('guess', guess);
+    });
 });
 
 

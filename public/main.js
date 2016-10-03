@@ -9,11 +9,17 @@ var pictionary = function(){
     	}
 
     	console.log(guessBox.val());
+    	socket.emit('guess', guessBox.val());
     	guessBox.val('');
+	};
+
+	var updateGuess = function(guess){
+		$('#guesses').text(guess);
 	};
 
 	guessBox = $('#guess input');
 	guessBox.on('keydown', onKeyDown);
+
 
 	var canvas, context;
 
@@ -49,6 +55,8 @@ var pictionary = function(){
 			}
 	});
 	socket.on('draw', draw);
+	socket.on('guess', onKeyDown);
+	socket.on('guess', updateGuess);
 };
 
 $(document).ready(function() {
