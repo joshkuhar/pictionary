@@ -1,6 +1,20 @@
 var socket = io();
 
 var pictionary = function(){
+	var guessBox;
+
+	var onKeyDown = function(event) {
+    	if (event.keyCode != 13) { // Enter
+        	return;
+    	}
+
+    	console.log(guessBox.val());
+    	guessBox.val('');
+	};
+
+	guessBox = $('#guess input');
+	guessBox.on('keydown', onKeyDown);
+
 	var canvas, context;
 
 	var draw = function(position) {
