@@ -17,8 +17,8 @@ io.on('connection', function (socket) {
 	// };
 
 	socket.on('draw', function(position) {
-        console.log('Received drawing', position);
-        socket.broadcast.emit('drawing', position);
+        console.log('Received draw', position);
+        socket.broadcast.emit('draw', position);
     });
 });
 

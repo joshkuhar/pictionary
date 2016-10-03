@@ -18,9 +18,9 @@ var pictionary = function(){
 		var position = {x: event.pageX - offset.left,
 						y: event.pageY - offset.top};
 		draw(position);
-		socket.emit('drawing', position);
+		socket.emit('draw', position);
 	});
-	socket.on('drawing', draw);
+	socket.on('draw', draw);
 };
 
 $(document).ready(function() {
