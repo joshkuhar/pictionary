@@ -13,12 +13,26 @@ var pictionary = function(){
 	context = canvas[0].getContext('2d');
 	canvas[0].width = canvas[0].offsetWidth;
 	canvas[0].height = canvas[0].offsetHeight;
+	
+	var drawing = false;
+
+	canvas.mousedown(function(){
+		drawing = true;
+	});
+
+	canvas.mouseup(function(){
+		drawing = false;
+	});
+		
+
 	canvas.on('mousemove', function(event) {
 		var offset = canvas.offset();
 		var position = {x: event.pageX - offset.left,
 						y: event.pageY - offset.top};
-		draw(position);
-		socket.emit('draw', position);
+		if (drawing == true){
+			draw(position);
+			socket.emit('draw', position);
+			}
 	});
 	socket.on('draw', draw);
 };
@@ -26,6 +40,13 @@ var pictionary = function(){
 $(document).ready(function() {
 	pictionary();
 });
+
+// Listen for the mousedown event
+// When the event is fired, set a variable called drawing to true
+// Listen for the mouseup event
+// When the event is fired, set the drawing variable to false
+// Only perform the mousemove actions when drawing is set to true
+
 
 // Emit a draw event from your mousemove function to the Socket.IO server.
 // The event should contain the position object as data.
