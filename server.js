@@ -8,19 +8,22 @@ app.use(express.static('public'));
 var server = http.Server(app);
 var io = socket_io(server);
 
-
-var users = [];
-
 io.on('connection', function (socket) {	
-	var userID = socket.client.id;
-	users.push(userID);
-	console.log(users);
-	var drawer = users[0];	
 
+if (io.engine.clientsCount === 1) {
+	
+	
+
+	
 	socket.on('draw', function(position) {
-		console.log(userID);
-        socket.broadcast.emit('draw', position);
+
+	socket.broadcast.emit('draw', position);
     });
+}
+
+
+
+	
 
     socket.on('drawing', function(drawing){
     	socket.broadcast.emit('drawing', drawing);
@@ -40,6 +43,8 @@ io.on('connection', function (socket) {
 
 server.listen(process.env.PORT || 8080);
 
+
+// First user is the drawer
 // Emit a draw event from your mousemove function to the Socket.IO server.
 // The event should contain the position object as data.
 // In server.js, listen for the draw event, and broadcast it out to all other clients.

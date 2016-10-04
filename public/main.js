@@ -19,6 +19,7 @@ var pictionary = function(){
 	];
 
 	var guessBox;
+	var drawing = false;
 
 	var onKeyDown = function(event) {
     	if (event.keyCode != 13) { // Enter
@@ -32,11 +33,6 @@ var pictionary = function(){
 
 	var updateGuess = function(guess){
 		$('#guesses').text(guess);
-	};
-	var notDrawing = false;
-	var disable = function(){
-		notDrawing = true;
-
 	};
 
 	guessBox = $('#guess input');
@@ -56,10 +52,10 @@ var pictionary = function(){
 	canvas[0].width = canvas[0].offsetWidth;
 	canvas[0].height = canvas[0].offsetHeight;
 	
-	var drawing = true;
+
 
 	canvas.mousedown(function(){
-		drawing = false;
+		drawing = true;
 	});
 
 	canvas.mouseup(function(){
@@ -71,17 +67,15 @@ var pictionary = function(){
 		var offset = canvas.offset();
 		var position = {x: event.pageX - offset.left,
 						y: event.pageY - offset.top};
-		if (drawing == true && notDrawing == true){
+		if (drawing){
 			draw(position);
 			// socket.emit('draw', socket.client.id);
-			socket.emit('drawing', 'drawing');
 			socket.emit('draw', position);
 			}
 	});
 	socket.on('draw', draw);
 	socket.on('guess', onKeyDown);
 	socket.on('guess', updateGuess);
-	socket.on('drawing', disable);
 };
 
 $(document).ready(function() {
